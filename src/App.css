@@ -11,15 +11,23 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+  cursor: pointer;
   .card {
     flex: 0 0 auto;
   }
+}
+.delete{
+    top: 0;
+    right: 0;
+    position: absolute;
 }
 .mainImg {
     width: 750px;
     height: 500px;
 }
-
+.cardContainer {
+    position: relative;
+}
 .example-appear {
   opacity: 0.01;
 }
