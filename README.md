@@ -14,6 +14,10 @@ GOAL: Create a React Gallery App with 1 large active image, and inactive thumb i
  8. Add any extra styling & behaviour to make it look polished
  
  
+ ![Alt text](https://github.com/polinazolotukhina/-React-Gallery/blob/master/Screen%20Shot%202019-08-17%20at%203.35.23%20PM.png?raw=true)
+
+ 
+ 
  
  
  
