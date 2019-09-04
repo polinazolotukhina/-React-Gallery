@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import GalleryThumb from './GalleryThumb';
 
 function GalleryHooks() {
-  // Declare a new state variable, which we'll call "count"
   const [images, getImages] = useState([]);
   const [hasError, setErrors] = useState(false);
   const  [selectedImg, setSelectedImg]  = useState('');
@@ -19,9 +18,8 @@ function GalleryHooks() {
 
         fetchData();
 
-
     }, []);
-images[0]&&setInterval(() => setSelectedImg((images[Math.floor(Math.random() * images.length)]).images.downsized.url), 3000)
+    images[0]&&setInterval(() => setSelectedImg((images[Math.floor(Math.random() * images.length)]).images.downsized.url), 3000)
 
   return (
     <div>
