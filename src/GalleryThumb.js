@@ -18,6 +18,7 @@ function GalleryThumb({images, onDelete, selectImage}) {
                             alt={image.images.downsized.url}
                             src={image.images.fixed_height_small.url}
                             onClick={()=>{ selectImage(image.images.downsized.url) }}
+                            className="thumbs"
                             />
 
                     </div>

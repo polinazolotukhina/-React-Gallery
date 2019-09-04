@@ -1,71 +1,44 @@
-import React, { Component} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, { useState, useEffect } from 'react';
 import GalleryThumb from './GalleryThumb';
 
-class Gallery extends Component {
-  state = {
-    images: [],
-    selectedImg:''
-  };
+function GalleryHooks() {
+  // Declare a new state variable, which we'll call "count"
+  const [images, getImages] = useState([]);
+  const [hasError, setErrors] = useState(false);
+  const  [selectedImg, setSelectedImg]  = useState('');
 
-  componentDidMount() {
-    this.fetchImages();
-     this.interval = setInterval(() => this.selectRendomImage(), 3000)
-  }
 
-  selectRendomImage() {
-      this.setState({
-        selectedImg: (this.state.images[Math.floor(Math.random() * this.state.images.length)]).images.downsized.url
-      })
-  }
+    useEffect(() => {
+        async function fetchData() {
+        const res = await fetch( `https://api.giphy.com/v1/gifs/trending?api_key=PEyIrGaWdf08Lw4nezyXejpD9Y0pO6Rt`);
+          res
+            .json()
+            .then(res => getImages(res.data))
+            .catch(err => setErrors(err));
+        }
 
-  fetchImages() {
-    fetch(
-      `https://api.giphy.com/v1/gifs/trending?api_key=PEyIrGaWdf08Lw4nezyXejpD9Y0pO6Rt`
-    )
-      .then(response => response.json())
-      .then(json =>
-        this.setState({
-          images: json.data,
-        })
-      );
-  }
-  deleteImg =(img)=>{
-      this.setState({images:   this.state.images.filter(image=> image.images.fixed_height_small.url !== img )})
-  }
-  selectImage =(selectedImg)=>{
-     console.log('s', selectedImg)
-      this.setState({ selectedImg })
-  }
+        fetchData();
 
-  render() {
-      const { images, selectedImg } = this.state;
-        return (
-          <div>
-            <ReactCSSTransitionGroup
-              transitionName="example"
-              transitionAppear={true}
-              transitionAppearTimeout={500}
-              transitionEnter={false}
-              transitionLeave={false}
-             >
-                <h1>Fading at Initial Mount</h1>
-             </ReactCSSTransitionGroup>
-            <ReactCSSTransitionGroup
-                transitionName="background"
-                transitionEnterTimeout={300}
-                transitionLeaveTimeout={300}
-            >
 
-                <img
-                    src={ selectedImg!== '' ? (selectedImg):(images[0]&&images[0].images.fixed_height.url)}
-                    className="mainImg"
-                />
-            </ReactCSSTransitionGroup>
+    }, []);
+images[0]&&setInterval(() => setSelectedImg((images[Math.floor(Math.random() * images.length)]).images.downsized.url), 3000)
 
-            <GalleryThumb images = { images } onDelete={(i)=>{this.deleteImg(i)}} selectImage={(i)=>{this.selectImage(i)}}/>
-          </div>
-        );
-    }
+  return (
+    <div>
+    <img
+        src={ selectedImg!== '' ? (selectedImg):(images[0]&&images[0].images.fixed_height.url)}
+        className="mainImg"
+    />
+
+      <GalleryThumb
+        images = { images }
+        onDelete={ (i)=>getImages(images.filter(image=> image.images.fixed_height_small.url !== i))}
+        selectImage={(i)=>setSelectedImg(i)}
+    />
+
+    </div>
+  );
 }
-export default Gallery;
+
+
+export default GalleryHooks
